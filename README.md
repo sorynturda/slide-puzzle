@@ -1,1 +1,1 @@
-# 4x4 slide puzzle proiect
+# 4x4 slide puzzle game
