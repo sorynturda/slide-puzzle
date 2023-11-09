@@ -1,15 +1,23 @@
-import java.sql.SQLOutput;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-public class Table {
+public class Table extends JFrame {
     private static final int n = 4;
     private static final int m = 4;
-    private static final int di[] = new int[]{-1, 0, 1, 0};
-    private static final int dj[] = new int[]{0, 1, 0, -1};
+    private static final int di[] = new int[] { -1, 0, 1, 0};
+    private static final int dj[] = new int[] {0, 1, 0, -1};
     private static Numbers[][] a = new Numbers[n][m];
     private static int zeroX = n - 1;
     private static int zeroY = m - 1;
-
+    private static final JFrame window = new JFrame();
+    private JPanel panel;
     public Table() {
+        window.setSize(600, 630);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel = new JPanel(new GridLayout(n, m));
+        window.add(panel, BorderLayout.CENTER);
+        panel.setLayout(null);
         int number = 1;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++) {
@@ -20,8 +28,11 @@ public class Table {
                 } else {
                     a[i][j] = new Numbers(number, i, j);
                     number++;
+
                 }
+                panel.add(a[i][j].getButton());
             }
+        window.setVisible(true);
     }
 
     public void showTable() {
@@ -60,7 +71,7 @@ public class Table {
             System.out.println("MISCARE NEPERMISA");
     }
 
-    private void setZero(int x, int y) {
+    private static void setZero(int x, int y) {
         zeroX = x;
         zeroY = y;
     }
@@ -76,6 +87,8 @@ public class Table {
         a[newZeroX][newZeroY] = zero;
         a[zeroX][zeroY] = nextNumber;
         setZero(newZeroX, newZeroY);
+        a[zeroX][zeroY].setButtonBounds(zeroX,zeroY);
+        // System.out.println(zeroX + " " + zeroY);
         a[zeroX][zeroY].setMoves();
     }
 

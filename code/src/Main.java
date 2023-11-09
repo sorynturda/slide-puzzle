@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Table a = new Table();
-        a.shuffle((int)(Math.random() * 1e3));
+        // a.shuffle((int)(Math.random() * 1e3));
         a.showTable();
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
