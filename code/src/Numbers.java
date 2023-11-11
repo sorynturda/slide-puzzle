@@ -58,6 +58,10 @@ public class Numbers {
         this.button.setBounds(bounds[x], bounds[y], size, size);
     }
 
+    public void setButtonBounds(Rectangle v) {
+        this.button.setBounds(v);
+    }
+
     public void setButtonText() {
         this.button.setText("");
     }

@@ -80,15 +80,19 @@ public class Table extends JFrame {
         a[zeroX][zeroY].setMoves();
         int newZeroX = a[di[dir] + zeroX][dj[dir] + zeroY].getX();
         int newZeroY = a[di[dir] + zeroX][dj[dir] + zeroY].getY();
+        Rectangle r1 = a[zeroX][zeroY].getButton().getBounds();
+        Rectangle r2 = a[newZeroX][newZeroY].getButton().getBounds();
         Numbers zero = a[zeroX][zeroY];
         zero.setXY(newZeroX, newZeroY);
         Numbers nextNumber = a[newZeroX][newZeroY];
+        nextNumber.setButtonBounds(r1);
+        zero.setButtonBounds(r2);
         nextNumber.setXY(zeroX, zeroY);
         a[newZeroX][newZeroY] = zero;
         a[zeroX][zeroY] = nextNumber;
+        System.out.println("old " + zeroX + " " + zeroY);
         setZero(newZeroX, newZeroY);
-        a[zeroX][zeroY].setButtonBounds(zeroX,zeroY);
-        // System.out.println(zeroX + " " + zeroY);
+        System.out.println("new " + zeroX + " " + zeroY);
         a[zeroX][zeroY].setMoves();
     }
 
