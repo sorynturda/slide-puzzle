@@ -19,6 +19,10 @@ public class Numbers {
      *                   left - 3
      */
     public Numbers(int number, int x, int y) {
+        /*
+         * x - line or y axis!!!!!!!
+         * y - column or x axis!!!!!
+         */
         this.number = number;
         this.x = x;
         this.y = y;
@@ -27,7 +31,13 @@ public class Numbers {
         else
             this.button = new JButton();
         this.button.setFont(new Font("Comic Sans", Font.BOLD, 72));
-        this.button.setBounds(bounds[x], bounds[y], size, size);
+        this.button.setBounds(bounds[y], bounds[x], size, size);
+        this.button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(number);
+            }
+        });
     }
 
     public String getXY() {
@@ -56,6 +66,10 @@ public class Numbers {
 
     public void setButtonBounds(int x, int y) {
         this.button.setBounds(bounds[x], bounds[y], size, size);
+    }
+
+    public void setButtonBounds(Rectangle v) {
+        this.button.setBounds(v);
     }
 
     public void setButtonText() {

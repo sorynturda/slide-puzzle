@@ -1,5 +1,5 @@
 import java.util.Scanner;
-//import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
         Table a = new Table();
@@ -11,7 +11,6 @@ public class Main {
             while (s.isEmpty() || s.charAt(0) == ' ')
                 s = in.nextLine();
             a.move(s.toLowerCase());
-            //a.showTable();
             s = in.nextLine();
         }
     }
