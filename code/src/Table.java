@@ -103,8 +103,6 @@ public class Table extends JFrame {
         a[newZeroX][newZeroY] = zero;
         a[zeroX][zeroY] = nextNumber;
         setZero(newZeroX, newZeroY);
-        a[zeroX][zeroY].setButtonBounds(zeroX,zeroY);
-        // System.out.println(zeroX + " " + zeroY);
         a[zeroX][zeroY].setMoves();
     }
 
