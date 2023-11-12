@@ -35,7 +35,9 @@ public class Numbers {
         this.button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(number);
+                int x = (int)(button.getY()/size);
+                int y = (int)(button.getX()/size);
+                Table.buttonClicked(x, y);
             }
         });
     }

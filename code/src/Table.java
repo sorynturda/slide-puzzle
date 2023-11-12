@@ -12,7 +12,8 @@ public class Table extends JFrame {
     private static int zeroX = n - 1;
     private static int zeroY = m - 1;
     private static final JFrame window = new JFrame("slide puzzle");
-    private JPanel panel;
+    private static JPanel panel;
+
     public Table() {
         window.setSize(600, 630);
         window.setLocation(0, 0); // location on screen
@@ -88,7 +89,34 @@ public class Table extends JFrame {
         zeroY = y;
     }
 
-    private void swap(int dir) {
+    public static void buttonClicked(int x, int y) {
+        int dir = nextToZero(x, y);
+        switch (dir) {
+        case 0: swap(2);
+            break;
+        case 1: swap(3);
+            break;
+        case 2: swap(0);
+            break;
+        case 3: swap(1);
+            break;
+        default: break;
+        }
+        if(x == 3 && y == 3)
+            checkGameOver();
+    }
+
+    private static int nextToZero(int x, int y) {
+        for (int k = 0; k < 4; k++) {
+            int ii = di[k] + x;
+            int jj = dj[k] + y;
+            if (ii < n && ii >= 0 && jj >= 0 && jj < m && a[ii][jj].getNumber() == 0)
+                return k;
+        }
+        return -1;
+    }
+
+    private static void swap(int dir) {
         a[zeroX][zeroY].setMoves();
         int newZeroX = a[di[dir] + zeroX][dj[dir] + zeroY].getX();
         int newZeroY = a[di[dir] + zeroX][dj[dir] + zeroY].getY();
@@ -106,6 +134,20 @@ public class Table extends JFrame {
         a[zeroX][zeroY].setMoves();
     }
 
+    public static void checkGameOver() {
+        int number = 0;
+        boolean gameOver = true;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++) {
+                number++;
+                int nmbr = a[i][j].getNumber();
+                if (nmbr != 0 && nmbr != number)
+                    gameOver = false;
+            }
+        if (gameOver)
+            JOptionPane.showMessageDialog(null, "Puzzle Solved!", "", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public int getN() {
         return n;
     }
@@ -118,8 +160,8 @@ public class Table extends JFrame {
         for (int i = 0; i < t; i++) {
             int dir = (int) (Math.random() * 10) % 4;
             if (a[zeroX][zeroY].checkMove(dir)) {
-                sleep(0.0015);
                 swap(dir);
+                sleep(0.002);
             }
         }
     }
