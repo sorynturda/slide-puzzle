@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.lang.Thread;
 
 public class Table extends JFrame {
     private static final int n = 4;
@@ -10,11 +11,14 @@ public class Table extends JFrame {
     private static Numbers[][] a = new Numbers[n][m];
     private static int zeroX = n - 1;
     private static int zeroY = m - 1;
-    private static final JFrame window = new JFrame();
+    private static final JFrame window = new JFrame("slide puzzle");
     private JPanel panel;
     public Table() {
         window.setSize(600, 630);
+        window.setLocation(0, 0); // location on screen
+        window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         panel = new JPanel(new GridLayout(n, m));
         window.add(panel, BorderLayout.CENTER);
         panel.setLayout(null);
@@ -33,6 +37,15 @@ public class Table extends JFrame {
                 panel.add(a[i][j].getButton());
             }
         window.setVisible(true);
+        sleep(0.5);
+    }
+
+    public static void sleep(double time) {
+        try {
+            Thread.sleep((int)(time * 1000));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void showTable() {
@@ -59,11 +72,11 @@ public class Table extends JFrame {
 
     public void move(String s) {
         int dir = 0;
-        if (s.charAt(0) == 'd')
+        if (s.charAt(0) == 'a')
             dir = 1;
-        else if (s.charAt(0) == 's')
+        else if (s.charAt(0) == 'w')
             dir = 2;
-        else if (s.charAt(0) == 'a')
+        else if (s.charAt(0) == 'd')
             dir = 3;
         if (a[zeroX][zeroY].checkMove(dir))
             swap(dir);
@@ -90,9 +103,7 @@ public class Table extends JFrame {
         nextNumber.setXY(zeroX, zeroY);
         a[newZeroX][newZeroY] = zero;
         a[zeroX][zeroY] = nextNumber;
-        System.out.println("old " + zeroX + " " + zeroY);
         setZero(newZeroX, newZeroY);
-        System.out.println("new " + zeroX + " " + zeroY);
         a[zeroX][zeroY].setMoves();
     }
 
@@ -107,8 +118,10 @@ public class Table extends JFrame {
     public void shuffle(int t) {
         for (int i = 0; i < t; i++) {
             int dir = (int) (Math.random() * 10) % 4;
-            if (a[zeroX][zeroY].checkMove(dir))
+            if (a[zeroX][zeroY].checkMove(dir)) {
+                sleep(0.0015);
                 swap(dir);
+            }
         }
     }
 }

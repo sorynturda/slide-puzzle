@@ -1,6 +1,6 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class Numbers {
     private int number;
@@ -19,6 +19,10 @@ public class Numbers {
      *                   left - 3
      */
     public Numbers(int number, int x, int y) {
+        /*
+         * x - line or y axis!!!!!!!
+         * y - column or x axis!!!!!
+         */
         this.number = number;
         this.x = x;
         this.y = y;
@@ -27,7 +31,13 @@ public class Numbers {
         else
             this.button = new JButton();
         this.button.setFont(new Font("Comic Sans", Font.BOLD, 72));
-        this.button.setBounds(bounds[x], bounds[y], size, size);
+        this.button.setBounds(bounds[y], bounds[x], size, size);
+        this.button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(number);
+            }
+        });
     }
 
     public String getXY() {
