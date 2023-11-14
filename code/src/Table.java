@@ -4,40 +4,43 @@ import javax.swing.*;
 import java.lang.Thread;
 
 public class Table extends JFrame {
-    private static final int n = 4;
-    private static final int m = 4;
+    private static int n;
+    private static int size;
     private static final int di[] = new int[] { -1, 0, 1, 0};
     private static final int dj[] = new int[] {0, 1, 0, -1};
-    private static Numbers[][] a = new Numbers[n][m];
-    private static int zeroX = n - 1;
-    private static int zeroY = m - 1;
+    private static Numbers[][] a;
+    private static int zeroX;
+    private static int zeroY;
     private static final JFrame window = new JFrame("slide puzzle");
     private static JPanel panel;
 
-    public Table() {
-        window.setSize(600, 630);
+    public Table(int n, int size) {
+        this.n = n;
+        this.size = size;
+        zeroX = n - 1;
+        zeroY = n - 1;
+        this.a = new Numbers[n][n];
+        window.setSize(n * size, n * size + 30); //30 de pixeli fura bara de sus pe linux
         window.setLocation(0, 0); // location on screen
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel = new JPanel(new GridLayout(n, m));
+        panel = new JPanel(null);
         window.add(panel, BorderLayout.CENTER);
-        panel.setLayout(null);
         int number = 1;
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++) {
-                if (i == n - 1 && j == m - 1) {
-                    Numbers zero = new Numbers(0, zeroX, zeroY);
+            for (int j = 0; j < n; j++) {
+                if (i == n - 1 && j == n - 1) {
+                    Numbers zero = new Numbers(0, zeroX, zeroY, n, size);
                     zero.setMoves();
                     a[i][j] = zero;
                 } else {
-                    a[i][j] = new Numbers(number, i, j);
+                    a[i][j] = new Numbers(number, i, j, n, size);
                     number++;
 
                 }
                 panel.add(a[i][j].getButton());
             }
         window.setVisible(true);
-        sleep(0.5);
     }
 
     public static void sleep(double time) {
@@ -50,7 +53,7 @@ public class Table extends JFrame {
 
     public void showTable() {
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < n; j++)
                 System.out.print(a[i][j].getNumber() + " ");
             System.out.println();
         }
@@ -58,7 +61,7 @@ public class Table extends JFrame {
 
     public void showPositions() {
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < n; j++)
                 System.out.print(a[i][j].getXY() + " ");
             System.out.println();
         }
@@ -66,7 +69,7 @@ public class Table extends JFrame {
 
     public void showMoves() {
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < n; j++)
                 System.out.println(a[i][j].getMoves());
     }
 
@@ -102,7 +105,7 @@ public class Table extends JFrame {
             break;
         default: break;
         }
-        if(x == 3 && y == 3)
+        if (a[x][y].getX() == zeroX && a[x][y].getY() == zeroY)
             checkGameOver();
     }
 
@@ -110,7 +113,7 @@ public class Table extends JFrame {
         for (int k = 0; k < 4; k++) {
             int ii = di[k] + x;
             int jj = dj[k] + y;
-            if (ii < n && ii >= 0 && jj >= 0 && jj < m && a[ii][jj].getNumber() == 0)
+            if (ii < n && ii >= 0 && jj >= 0 && jj < n && a[ii][jj].getNumber() == 0)
                 return k;
         }
         return -1;
@@ -138,7 +141,7 @@ public class Table extends JFrame {
         int number = 0;
         boolean gameOver = true;
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++) {
+            for (int j = 0; j < n; j++) {
                 number++;
                 int nmbr = a[i][j].getNumber();
                 if (nmbr != 0 && nmbr != number)
@@ -152,17 +155,14 @@ public class Table extends JFrame {
         return n;
     }
 
-    public int getM() {
-        return m;
-    }
-
     public void shuffle(int t) {
         for (int i = 0; i < t; i++) {
             int dir = (int) (Math.random() * 10) % 4;
-            if (a[zeroX][zeroY].checkMove(dir)) {
-                swap(dir);
-                sleep(0.002);
+            while (a[zeroX][zeroY].checkMove(dir) == false) {
+                dir = (int) (Math.random() * 10) % 4;
             }
+            sleep(0.003);
+            swap(dir);
         }
     }
 }

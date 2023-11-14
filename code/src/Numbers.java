@@ -6,10 +6,8 @@ public class Numbers {
     private int number;
     private int x;
     private int y;
-    private static final int n = 4;
-    private static final int m = 4;
-    private static final int bounds[] = new int[] {0, 150, 300, 450};
-    private static final int size = 150;
+    private static int n;
+    private static int size;
     private boolean[] moves = new boolean[4];
     private JButton button;
     /*
@@ -18,7 +16,9 @@ public class Numbers {
      *                   down - 2
      *                   left - 3
      */
-    public Numbers(int number, int x, int y) {
+    public Numbers(int number, int x, int y, int n, int size) {
+        this.n = n;
+        this.size = size;
         /*
          * x - line or y axis!!!!!!!
          * y - column or x axis!!!!!
@@ -31,12 +31,12 @@ public class Numbers {
         else
             this.button = new JButton();
         this.button.setFont(new Font("Comic Sans", Font.BOLD, 72));
-        this.button.setBounds(bounds[y], bounds[x], size, size);
+        this.button.setBounds(y * size, x * size, size, size);
         this.button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int x = (int)(button.getY()/size);
-                int y = (int)(button.getX()/size);
+                int x = (int)(button.getY() / size);
+                int y = (int)(button.getX() / size);
                 Table.buttonClicked(x, y);
             }
         });
@@ -67,7 +67,7 @@ public class Numbers {
     }
 
     public void setButtonBounds(int x, int y) {
-        this.button.setBounds(bounds[x], bounds[y], size, size);
+        this.button.setBounds(x * size, y * size, size, size);
     }
 
     public void setButtonBounds(Rectangle v) {
@@ -88,7 +88,7 @@ public class Numbers {
     }
 
     public void setMoves() {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < 4; i++)
             moves[i] = true;
         if (this.x == 0)
             this.moves[0] = false;
@@ -96,7 +96,7 @@ public class Numbers {
             this.moves[2] = false;
         if (this.y == 0)
             this.moves[3] = false;
-        if (this.y == m - 1)
+        if (this.y == n - 1)
             this.moves[1] = false;
     }
 
