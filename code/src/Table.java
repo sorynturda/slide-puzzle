@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.lang.Thread;
 
-public class Table extends JFrame {
+public class Table {
     private static int n;
     private static int size;
     private static final int di[] = new int[] { -1, 0, 1, 0};
