@@ -3,13 +3,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Numbers {
-    private int number;
+    private final int number;
     private int x;
     private int y;
     private static int n;
-    private static int size;
-    private boolean[] moves = new boolean[4];
-    private JButton button;
+    private final boolean[] moves = new boolean[4];
+    private final JButton button;
+
     /*
      *   allowed moves     up - 0
      *                  right - 1
@@ -17,8 +17,7 @@ public class Numbers {
      *                   left - 3
      */
     public Numbers(int number, int x, int y, int n, int size) {
-        this.n = n;
-        this.size = size;
+        Numbers.n = n;
         /*
          * x - line or y axis!!!!!!!
          * y - column or x axis!!!!!
@@ -35,16 +34,13 @@ public class Numbers {
         this.button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int x = (int)(button.getY() / size);
-                int y = (int)(button.getX() / size);
+                int x = (int) (button.getY() / size);
+                int y = (int) (button.getX() / size);
                 Table.buttonClicked(x, y);
             }
         });
     }
 
-    public String getXY() {
-        return "(" + this.x + ", " + this.y + ")";
-    }
 
     public int getX() {
         return this.x;
@@ -58,24 +54,8 @@ public class Numbers {
         return this.button;
     }
 
-    public void setButton(JButton button) {
-        this.button = button;
-    }
-
-    public void setButtonText(int number) {
-        this.button.setText(String.valueOf(number));
-    }
-
-    public void setButtonBounds(int x, int y) {
-        this.button.setBounds(x * size, y * size, size, size);
-    }
-
     public void setButtonBounds(Rectangle v) {
         this.button.setBounds(v);
-    }
-
-    public void setButtonText() {
-        this.button.setText("");
     }
 
     public void setXY(int x, int y) {
@@ -102,18 +82,5 @@ public class Numbers {
 
     public boolean checkMove(int index) {
         return moves[index];
-    }
-
-    public String getMoves() {
-        String str = "";
-        if (this.moves[0])
-            str += "up ";
-        if (this.moves[1])
-            str += "right ";
-        if (this.moves[2])
-            str += "down ";
-        if (this.moves[3])
-            str += "left ";
-        return str;
     }
 }

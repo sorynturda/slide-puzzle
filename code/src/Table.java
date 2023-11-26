@@ -1,25 +1,22 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import java.lang.Thread;
 
 public class Table {
     private static int n;
-    private static int size;
-    private static final int di[] = new int[] { -1, 0, 1, 0};
-    private static final int dj[] = new int[] {0, 1, 0, -1};
+    private static final int []di = new int[] { -1, 0, 1, 0};
+    private static final int []dj = new int[] {0, 1, 0, -1};
     private static Numbers[][] a;
     private static int zeroX;
     private static int zeroY;
     private static final JFrame window = new JFrame("slide puzzle");
-    private static JPanel panel;
 
     public Table(int n, int size) {
-        this.n = n;
-        this.size = size;
+        Table.n = n;
+        JPanel panel;
         zeroX = n - 1;
         zeroY = n - 1;
-        this.a = new Numbers[n][n];
+        a = new Numbers[n][n];
         window.setSize(n * size, n * size + 30); //30 de pixeli fura bara de sus pe linux
         window.setLocation(0, 0); // location on screen
         window.setResizable(false);
@@ -49,42 +46,6 @@ public class Table {
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
-
-    public void showTable() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++)
-                System.out.print(a[i][j].getNumber() + " ");
-            System.out.println();
-        }
-    }
-
-    public void showPositions() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++)
-                System.out.print(a[i][j].getXY() + " ");
-            System.out.println();
-        }
-    }
-
-    public void showMoves() {
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                System.out.println(a[i][j].getMoves());
-    }
-
-    public void move(String s) {
-        int dir = 0;
-        if (s.charAt(0) == 'a')
-            dir = 1;
-        else if (s.charAt(0) == 'w')
-            dir = 2;
-        else if (s.charAt(0) == 'd')
-            dir = 3;
-        if (a[zeroX][zeroY].checkMove(dir))
-            swap(dir);
-        else
-            System.out.println("MISCARE NEPERMISA");
     }
 
     private static void setZero(int x, int y) {
@@ -151,14 +112,10 @@ public class Table {
             JOptionPane.showMessageDialog(null, "Puzzle Solved!", "", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public int getN() {
-        return n;
-    }
-
     public void shuffle(int t) {
         for (int i = 0; i < t; i++) {
             int dir = (int) (Math.random() * 10) % 4;
-            while (a[zeroX][zeroY].checkMove(dir) == false) {
+            while (!a[zeroX][zeroY].checkMove(dir) ) {
                 dir = (int) (Math.random() * 10) % 4;
             }
             sleep(0.003);
